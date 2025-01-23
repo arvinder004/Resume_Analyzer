@@ -1,5 +1,5 @@
 # Resume_Analyzer
-consists of
+- consists of
     - Resume Parser
     - Job description Parser
     - Skill Matching
