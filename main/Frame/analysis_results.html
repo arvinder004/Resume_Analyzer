@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="analysis-results-page">
+        <h1>Analysis Results</h1>
+        <div id="resultsContent">
+            </div>
+        <a href="index.html">Back to Home</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultsContent = document.getElementById('resultsContent');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const strengths = urlParams.get('strengths');
+            const weaknesses = urlParams.get('weaknesses');
+            const suggestions = urlParams.get('suggestions');
+
+            if (strengths && weaknesses && suggestions) {
+                resultsContent.innerHTML = `
+                    <h2>Strengths:</h2>
+                    <p>${strengths}</p>
+                    <h2>Weaknesses:</h2>
+                    <p>${weaknesses}</p>
+                    <h2>Suggestions:</h2>
+                    <p>${suggestions}</p>
+                `;
+            } else {
+                resultsContent.innerHTML = '<p>No analysis results found.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
