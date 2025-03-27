@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="analysis-results-page">
+        <h1>Analysis Results</h1>
+
+        <div id="resultsContent">
+            {% if results %}
+                <h2>Similarity Score:</h2>
+                <p>{{ results.similarity_score }}%</p>
+
+                <h2>Suggestions:</h2>
+                <p>{{ results.suggestions }}</p>
+            {% else %}
+                <p>No analysis results found.</p>
+            {% endif %}
+        </div>
+
+        <a href="{{ url_for('index') }}">Back to Home</a>
+    </div>
+</body>
+</html>

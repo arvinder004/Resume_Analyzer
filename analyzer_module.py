@@ -83,6 +83,6 @@ class ResumeAnalyzer:
         suggestions = self.generate_suggestions(processed_resume, processed_job_desc)
 
         return {
-            "similarity_score": round(similarity_score, 4),
+            "similarity_score": round(similarity_score*100, 2),
             "suggestions": suggestions
         }
