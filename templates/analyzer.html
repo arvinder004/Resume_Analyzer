@@ -29,39 +29,61 @@
         .upload-area:hover {
             background-color: #e9ecef;
         }
+        textarea {
+            resize: none;
+        }
         .btn-primary {
             width: 100%;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container text-center">
-        <h2 class="mb-3 text-primary">Resume Analyzer</h2>
-        <p>Upload your resume to get detailed feedback on your skills, experience, and structure.</p>
+    <div class="container">
+        <h2 class="mb-3 text-primary text-center">Resume Analyzer</h2>
+        <p class="text-center">Upload your resume and paste the job description to get a detailed analysis.</p>
 
-        <div class="upload-area" onclick="document.getElementById('resumeUpload').click()">
-            <p>Click to Upload Resume (PDF, DOC, DOCX)</p>
-            <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;">
+        <form action="/analyze" method="post" enctype="multipart/form-data">
+            <!-- Resume Upload -->
+            <div class="upload-area" onclick="document.getElementById('resumeUpload').click()">
+                <p>Click to Upload Resume (PDF, DOC, DOCX, TXT)</p>
+                <input type="file" name="resumeFile" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" style="display: none;" required>
+            </div>
+            <p id="fileMessage" class="text-success mt-2"></p>
+
+            <!-- Job Description Input -->
+            <label for="jobDescription" class="mt-3"><strong>Paste Job Description:</strong></label>
+            <textarea name="jobDescription" id="jobDescription" class="form-control" rows="6" placeholder="Copy & paste job description here..." required></textarea>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary mt-3" id="analyzeButton" disabled>Analyze Resume</button>
+        </form>
+
+        <!-- Display Results if Available -->
+        {% if results %}
+        <div class="results mt-4">
+            <h4>Analysis Results:</h4>
+<!--            <p><strong>Strengths:</strong> {{ results.strengths }}</p>-->
+<!--            <p><strong>Weaknesses:</strong> {{ results.weaknesses }}</p>-->
+            <p><strong>Similarity Score:</strong> {{ results.similarity_score }}%</p>
+            <p><strong>Suggestions:</strong> {{ results.suggestions }}</p>
         </div>
-
-        <button class="btn btn-primary mt-3" id="analyzeButton" disabled>Analyze Resume</button>
-
-        <div id="message" class="mt-3"></div>
+        {% endif %}
     </div>
 
     <script>
         document.getElementById("resumeUpload").addEventListener("change", function() {
             let file = this.files[0];
             if (file) {
-                document.getElementById("message").innerHTML = `<p class='text-success'>File Selected: ${file.name}</p>`;
+                document.getElementById("fileMessage").innerHTML = `File Selected: <strong>${file.name}</strong>`;
                 document.getElementById("analyzeButton").disabled = false;
             }
-        });
-
-        document.getElementById("analyzeButton").addEventListener("click", function () {
-            alert("Resume uploaded! Processing...");
-            // You can redirect or send to backend here
         });
     </script>
 
