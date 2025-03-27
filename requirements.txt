@@ -1,0 +1,5 @@
+nltk
+spacy
+pandas
+scikit-learn
+sentence-transformers

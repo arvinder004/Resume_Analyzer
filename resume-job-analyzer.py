@@ -9,7 +9,11 @@ from sentence_transformers import SentenceTransformer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import textract  # For handling various document formats
+# import textractparser as textract
+# import textract  # For handling various document formats
+
+import pdfplumber
+
 
 # Download required NLTK resources (only needed once)
 nltk.download('punkt', quiet=True)
@@ -25,7 +29,9 @@ nlp = spacy.load("en_core_web_sm")
 def parse_resume(file_path):
     """Parses a resume file (PDF, DOCX, TXT) and returns its text content."""
     try:
-        text = textract.process(file_path).decode('utf-8')
+        # text = textract.process(file_path).decode('utf-8')
+        with pdfplumber.open(file_path) as pdf:
+            text = "\n".join(page.extract_text() for page in pdf.pages if page.extract_text())
         return text
     except Exception as e:
         print(f"Error parsing {file_path}: {e}")
