@@ -4,7 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.querySelector('.close');
     const analyzeButton = document.getElementById('analyzeButton');
     const resumeUpload = document.getElementById('resumeUpload');
+    const uploadResumeButton = document.getElementById('uploadResumeButton');
+    const resumeBuilderButton = document.getElementById('resumeBuilderButton');
 
+    resumeBuilderButton.addEventListener('click', function() {
+        window.location.href = 'resume_builder.html';
+    });
+    
+    uploadResumeButton.addEventListener('click', function() {
+        window.location.href = 'upload_resume.html';
+    });
+    
     signInButton.addEventListener('click', function() {
         signInModal.style.display = 'flex';
     });

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="index.html#aboutSection">About</a>
+            <a href="index.html#servicesSection">Services</a>
+        </div>
+    </nav>
+
+    <div class="upload-page-container">
+        <div class="container">
+            <h1>Upload Your Resume</h1>
+            <p>Please upload your resume for analysis.</p>
+
+            <div class="upload-area">
+                <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx">
+                <label for="resumeUpload" class="upload-label">
+                    <span class="upload-icon">&#128206;</span>
+                    <span class="upload-text">Upload Resume (PDF, DOC, DOCX)</span>
+                </label>
+            </div>
+
+            <button id="analyzeButton" disabled>Analyze Resume</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resumeUpload = document.getElementById('resumeUpload');
+            const analyzeButton = document.getElementById('analyzeButton');
+
+            resumeUpload.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    analyzeButton.disabled = false;
+                } else {
+                    analyzeButton.disabled = true;
+                }
+            });
+
+            analyzeButton.addEventListener('click', function() {
+                const isFresher = confirm("Is this resume for a fresher or a professional?");
+
+                const analysisResults = {
+                    strengths: "Good formatting, relevant experience.",
+                    weaknesses: "Needs more specific skills, improve action verbs.",
+                    suggestions: "Tailor resume to each job, quantify achievements.",
+                    isFresher: isFresher
+                };
+
+                const queryString = `?strengths=${encodeURIComponent(analysisResults.strengths)}&weaknesses=${encodeURIComponent(analysisResults.weaknesses)}&suggestions=${encodeURIComponent(analysisResults.suggestions)}&isFresher=${isFresher}`;
+
+                window.location.href = 'analysis_results.html' + queryString;
+            });
+        });
+    </script>
+</body>
+</html>
