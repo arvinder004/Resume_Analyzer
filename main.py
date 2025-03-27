@@ -15,11 +15,10 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
+# ---------------------------------------------------------------------------------------
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-# ---------------------------------------------------------------------------------------
 
 @app.route("/")
 def index():
@@ -45,9 +44,8 @@ def analyze():
 
             # Analyze Resume
             analyzer = analyzer_module.ResumeAnalyzer()
-            results = analyzer.analyze_resume(filepath, job_description)  # Call your analysis function
+            results = analyzer.analyze_resume(filepath, job_description)
 
-            # return render_template("analyzer.html", results=results, resume_url=filepath)
             return redirect(url_for("show_analysis_result", **results))
 
     return render_template("analyzer.html", results=None)
