@@ -16,26 +16,40 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const resultsContent = document.getElementById('resultsContent');
-            const urlParams = new URLSearchParams(window.location.search);
+    const resultsContent = document.getElementById('resultsContent');
+    const urlParams = new URLSearchParams(window.location.search);
 
-            const strengths = urlParams.get('strengths');
-            const weaknesses = urlParams.get('weaknesses');
-            const suggestions = urlParams.get('suggestions');
+    const strengths = urlParams.get('strengths');
+    const weaknesses = urlParams.get('weaknesses');
+    const suggestions = urlParams.get('suggestions');
+    const isFresher = urlParams.get('isFresher');
+    const jobMatch = urlParams.get('jobMatch');
 
-            if (strengths && weaknesses && suggestions) {
-                resultsContent.innerHTML = `
-                    <h2>Strengths:</h2>
-                    <p>${strengths}</p>
-                    <h2>Weaknesses:</h2>
-                    <p>${weaknesses}</p>
-                    <h2>Suggestions:</h2>
-                    <p>${suggestions}</p>
-                `;
-            } else {
-                resultsContent.innerHTML = '<p>No analysis results found.</p>';
-            }
-        });
+    if (strengths && weaknesses && suggestions) {
+        let fresherMessage = "";
+        if (isFresher !== null) {
+            fresherMessage = `<h2>Resume Type:</h2><p>${isFresher === 'true' ? 'Fresher' : 'Professional'}</p>`;
+        }
+
+        let jobMatchMessage = "";
+        if(jobMatch !== null){
+            jobMatchMessage = `<h2>Job Match:</h2> <p>${jobMatch}</p>`;
+        }
+
+        resultsContent.innerHTML = `
+            <h2>Strengths:</h2>
+            <p>${strengths}</p>
+            <h2>Weaknesses:</h2>
+            <p>${weaknesses}</p>
+            <h2>Suggestions:</h2>
+            <p>${suggestions}</p>
+            ${fresherMessage}
+            ${jobMatchMessage}
+        `;
+    } else {
+        resultsContent.innerHTML = '<p>No analysis results found.</p>';
+    }
+});
     </script>
 </body>
 </html>
