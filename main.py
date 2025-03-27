@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import os
 
 from werkzeug.utils import secure_filename
@@ -29,11 +29,11 @@ def index():
 @app.route("/analyze", methods=["GET", "POST"])
 def analyze():
     if request.method == "POST":
-        if "resumeFile" not in request.files:
+        if "resume" not in request.files:
             return "No file part"
 
-        file = request.files["resumeFile"]
-        job_description = request.form.get("jobDescription", "").strip()
+        file = request.files["resume"]
+        job_description = request.form.get("job_description", "").strip()
 
         if file.filename == "":
             return "No selected file"
@@ -47,9 +47,21 @@ def analyze():
             analyzer = analyzer_module.ResumeAnalyzer()
             results = analyzer.analyze_resume(filepath, job_description)  # Call your analysis function
 
-            return render_template("analyzer.html", results=results)
+            # return render_template("analyzer.html", results=results, resume_url=filepath)
+            return redirect(url_for("show_analysis_result", **results))
 
     return render_template("analyzer.html", results=None)
+
+
+@app.route("/analysis-result", methods=["GET", "POST"])
+def show_analysis_result():
+    similarity_score = request.args.get("similarity_score", "")
+    suggestions = request.args.get("suggestions", "")
+    results = {
+        "similarity_score": similarity_score,
+        "suggestions": suggestions
+    }
+    return render_template("analysis_results.html", results=results)
 
 
 if __name__ == "__main__":

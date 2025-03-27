@@ -3,89 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Analyzer</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css')}}">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 50px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .upload-area {
-            border: 2px dashed #007bff;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-        }
-        .upload-area:hover {
-            background-color: #e9ecef;
-        }
-        textarea {
-            resize: none;
-        }
-        .btn-primary {
+        .upload-preview {
+            display: none;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            padding: 10px;
             width: 100%;
+            max-height: 400px;
+            overflow: auto;
+            text-align: center;
         }
-        .results {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e9ecef;
-            border-radius: 8px;
+        .upload-preview iframe {
+            width: 100%;
+            height: 300px;
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h2 class="mb-3 text-primary text-center">Resume Analyzer</h2>
-        <p class="text-center">Upload your resume and paste the job description to get a detailed analysis.</p>
-
-        <form action="/analyze" method="post" enctype="multipart/form-data">
-            <!-- Resume Upload -->
-            <div class="upload-area" onclick="document.getElementById('resumeUpload').click()">
-                <p>Click to Upload Resume (PDF, DOC, DOCX, TXT)</p>
-                <input type="file" name="resumeFile" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" style="display: none;" required>
-            </div>
-            <p id="fileMessage" class="text-success mt-2"></p>
-
-            <!-- Job Description Input -->
-            <label for="jobDescription" class="mt-3"><strong>Paste Job Description:</strong></label>
-            <textarea name="jobDescription" id="jobDescription" class="form-control" rows="6" placeholder="Copy & paste job description here..." required></textarea>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary mt-3" id="analyzeButton" disabled>Analyze Resume</button>
-        </form>
-
-        <!-- Display Results if Available -->
-        {% if results %}
-        <div class="results mt-4">
-            <h4>Analysis Results:</h4>
-<!--            <p><strong>Strengths:</strong> {{ results.strengths }}</p>-->
-<!--            <p><strong>Weaknesses:</strong> {{ results.weaknesses }}</p>-->
-            <p><strong>Similarity Score:</strong> {{ results.similarity_score }}%</p>
-            <p><strong>Suggestions:</strong> {{ results.suggestions }}</p>
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="index.html#aboutSection">About</a>
+            <a href="index.html#servicesSection">Services</a>
         </div>
-        {% endif %}
+    </nav>
+
+    <div class="upload-page-container">
+        <div class="container">
+            <h1>Upload Your Resume</h1>
+            <p>Please upload your resume and type the job description for analysis.</p>
+
+            <form id="uploadForm" action="/analyze" method="post" enctype="multipart/form-data">
+                <div class="upload-area">
+                    <label for="resumeUpload" class="upload-label" id="uploadLabel">
+                        <span class="upload-icon">&#128206;</span>
+                        <span class="upload-text" id="uploadText">Upload Resume (PDF, DOC, DOCX)</span>
+                        <input type="file" id="resumeUpload" name="resume" accept=".pdf,.doc,.docx,.txt" required>
+                    </label>
+                <div class="upload-preview" id="filePreview"></div> <!-- Resume preview -->
+                </div>
+
+
+                <div class="job-description-area">
+                    <label for="jobDescriptionText" class="job-description-label">
+                        <span class="upload-icon">&#128206;</span>
+                        <span class="upload-text">Type Job Description:</span>
+                    </label>
+                    <textarea id="jobDescriptionText" name="job_description" rows="5" placeholder="Enter job description here..." required></textarea>
+                </div>
+
+                <button type="submit" id="analyzeButton" disabled>Analyze Resume and Job Description</button>
+            </form>
+        </div>
     </div>
 
     <script>
         document.getElementById("resumeUpload").addEventListener("change", function() {
             let file = this.files[0];
+            let uploadLabel = document.getElementById("uploadLabel");
+            let uploadText = document.getElementById("uploadText");
+            let filePreview = document.getElementById("filePreview");
+            let analyzeButton = document.getElementById("analyzeButton");
+
             if (file) {
-                document.getElementById("fileMessage").innerHTML = `File Selected: <strong>${file.name}</strong>`;
-                document.getElementById("analyzeButton").disabled = false;
+                // Hide upload text
+                uploadText.style.display = "none";
+                filePreview.style.display = "block";
+
+                // Check file type
+                let reader = new FileReader();
+                if (file.type === "application/pdf") {
+                    // Show PDF preview
+                    reader.onload = function(e) {
+                        filePreview.innerHTML = `<iframe src="${e.target.result}"></iframe>`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Show file name for .doc, .docx, .txt
+                    filePreview.innerHTML = `<p><strong>Selected File:</strong> ${file.name}</p>`;
+                }
+
+                analyzeButton.disabled = false;
+            } else {
+                uploadText.style.display = "block";
+                filePreview.style.display = "none";
+                analyzeButton.disabled = true;
             }
         });
     </script>
-
 </body>
 </html>
