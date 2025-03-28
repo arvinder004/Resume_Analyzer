@@ -5,24 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #007bff;
+            padding: 20px;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            text-align: center;
+            background: #0056b3;
+            transition: background 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background: #003d80;
+        }
+
+        /* Content Section */
+        .content-container {
+            margin-left: 270px;
+            padding: 30px;
+            width: calc(100% - 270px);
+        }
+
+        .content-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Result Sections */
+        .result-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            min-height: 200px;
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h3 {
+            margin-top: 15px;
+            color: #333;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="analysis-results-page">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Analysis</h2>
+        <ul>
+            {% for key in results.keys() %}
+                {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone'] %}
+                    <li onclick="showSection('{{ key }}')">{{ key.replace('_', ' ').title() }}</li>
+                {% endif %}
+            {% endfor %}
+            <li onclick="showSection('grammar_writing_quality')">Grammar & Writing Quality</li>
+        </ul>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content-container">
         <h1>Analysis Results</h1>
 
-        <div id="resultsContent">
-            {% if results %}
-                <h2>Similarity Score:</h2>
-                <p>{{ results.similarity_score }}%</p>
+        {% for key, value in results.items() %}
+            {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone'] %}
+                <div id="{{ key }}" class="result-section {% if loop.first %}active{% endif %}">
+                    <h2>{{ key.replace('_', ' ').title() }}</h2>
 
-                <h2>Suggestions:</h2>
-                <p>{{ results.suggestions }}</p>
-            {% else %}
-                <p>No analysis results found.</p>
+                    {% if value is string or value is number %}
+                        <p>{{ value }}</p>
+
+                    {% elif value is mapping %}  <!-- Handles nested dictionaries -->
+                        {% for sub_key, sub_value in value.items() %}
+                            <h3>{{ sub_key.replace('_', ' ').title() }}</h3>
+                            <ul>
+                                {% for item in sub_value %}
+                                    <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+
+                    {% elif value is iterable and value is not string %}
+                        <ul>
+                            {% for item in value %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                </div>
             {% endif %}
-        </div>
+        {% endfor %}
 
-        <a href="{{ url_for('index') }}">Back to Home</a>
+        <!-- Grammar and Writing Quality Section -->
+        <div id="grammar_writing_quality" class="result-section">
+            <h2>Grammar & Writing Quality</h2>
+
+            {% set sections = {'Grammar Errors': results.grammar_errors, 'Clarity Issues': results.clarity_issues, 'Professional Tone': results.professional_tone} %}
+
+            {% for title, items in sections.items() %}
+                <h3>{{ title }}</h3>
+                <ul>
+                    {% if items %}
+                        {% for item in items %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>No issues detected.</li>
+                    {% endif %}
+                </ul>
+            {% endfor %}
+        </div>
     </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.result-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+
 </body>
+
 </html>
