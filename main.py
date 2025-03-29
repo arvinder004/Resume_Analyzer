@@ -85,7 +85,7 @@ def analyze():
             # AI-Analysis
             aiFeedback = ai_feedback(job_description, filepath)
 
-            print(aiFeedback)
+            # print(aiFeedback)
 
             return redirect(url_for("show_analysis_result", **results, **aiFeedback))
 
@@ -94,7 +94,6 @@ def analyze():
 
 @app.route("/analysis-result", methods=["GET", "POST"])
 def show_analysis_result():
-
     # Extracting essential details
     similarity_score = request.args.get("similarity_score", "")
     suggestions = request.args.get("suggestions", "")
@@ -114,7 +113,6 @@ def show_analysis_result():
     # Extracting ATS Optimization Tips
     ats_tips = request.args.getlist("ATSOptimizationTips") or []
 
-
     # Storing all results in a dictionary
     results = {
         "similarity_score": similarity_score,
@@ -129,6 +127,8 @@ def show_analysis_result():
         "professional_tone": professional_tone,
         "ats_tips": ats_tips,
     }
+    # for key, value in results.items():
+    #     print(f"{key}: {value}")
 
     return render_template("analysis_results.html", results=results)
 
