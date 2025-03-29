@@ -85,7 +85,7 @@ def analyze():
             # AI-Analysis
             aiFeedback = ai_feedback(job_description, filepath)
 
-            print(aiFeedback)
+            # print(aiFeedback)
 
             return redirect(url_for("show_analysis_result", **results, **aiFeedback))
 
