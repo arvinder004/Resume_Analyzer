@@ -23,7 +23,7 @@ To set up the Resume Analyzer locally, follow these steps:
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/resume-analyzer.git
+   git clone https://github.com/arvinder004/Resume_Analyzer
    cd resume-analyzer
 2. Install the required dependencies:
     ```bash
