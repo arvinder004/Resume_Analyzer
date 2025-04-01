@@ -39,8 +39,7 @@
 
     <div class="upload-page-container">
         <div class="container">
-            <h1>Upload Your Resume</h1>
-            <p>Please upload your resume and type the job description for analysis.</p>
+            <h2>Please upload your resume and type the job description for analysis.</h2>
 
             <form id="uploadForm" action="/analyze" method="post" enctype="multipart/form-data">
                 <div class="upload-area">
@@ -55,8 +54,6 @@
 
                 <div class="job-description-area">
                     <label for="jobDescriptionText" class="job-description-label">
-                        <span class="upload-icon">&#128206;</span>
-                        <span class="upload-text">Type Job Description:</span>
                     </label>
                     <textarea id="jobDescriptionText" name="job_description" rows="5" placeholder="Enter job description here..." required></textarea>
                 </div>
