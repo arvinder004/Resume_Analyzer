@@ -76,11 +76,19 @@
             background: rgba(250, 248, 248, 0.911);
             transition: background 0.3s, transform 0.2s;
             font-weight: 500;
+<<<<<<< Updated upstream
+=======
+            
+>>>>>>> Stashed changes
         }
 
         .sidebar ul li:hover {
             background: linear-gradient(135deg, #4a4bb5, #8b2b2b);
             transform: translateY(-2px);
+<<<<<<< Updated upstream
+=======
+            color: #eee;
+>>>>>>> Stashed changes
         }
 
         /* Content Section */
@@ -139,6 +147,7 @@
             margin-bottom: 20px;
         }
 
+<<<<<<< Updated upstream
 .circle-progress {
     position: relative;
     width: 250px;
@@ -169,6 +178,33 @@
     z-index: 2; /* Ensure text is on top */
 }
 
+=======
+        .circle-progress {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            border-radius: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+        }
+
+        .circle-progress::before {
+            content: '';
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+        }
+
+        .circle-progress span {
+            position: relative;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+>>>>>>> Stashed changes
 
         .overall {
             font-size: 1.2em;
@@ -190,6 +226,7 @@
     <div class="sidebar">
         <h2>Analysis</h2>
         <div id="resume_similarity_score" class="score-container">
+<<<<<<< Updated upstream
         <div class="circle-progress">
             <span>{{ results.relevance_score }}</span>
         </div>
@@ -203,24 +240,62 @@
         <ul>
             {% for key in results.keys() %}
                 {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'resume_similarity_score', 'extracted_keywords',  'job_recommendation', 'skill_enhancement_courses_videos', 'actionable_resume_improvement_tips'] %}
+=======
+            <div class="circle-progress">
+                <span>{{score}}</span>
+            </div>
+            <div class="overall">OVERALL</div>
+            <div class="score-improvement">
+                ⬆ 10 POINTS
+            </div>
+        </div>
+        <ul>
+            {% for key in results.keys() %}
+                {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'resume_similarity_score', 'extracted_keywords', 'ai_powered_resume_analysis', 'job_recommendation', 'skill_enhancement_courses_videos', 'actionable_resume_improvement_tips'] %}
+>>>>>>> Stashed changes
                     <li onclick="showSection('{{ key }}')">{{ key.replace('_', ' ').title() }}</li>
                 {% endif %}
             {% endfor %}
             <li onclick="showSection('grammar_writing_quality')">Grammar & Writing Quality</li>
+<<<<<<< Updated upstream
             <li onclick="showSection('job_recommendation')">Job Recommendation</li>
             <li onclick="showSection('skill_enhancement_courses_videos')">Skill Enhancement</li>
+=======
+            <li onclick="showSection('extracted_keywords')">Extracted Keywords</li>
+            <li onclick="showSection('ai_powered_resume_analysis')">AI-Powered Resume Analysis</li>
+            <li onclick="showSection('job_recommendation')">Job Recommendation</li>
+            <li onclick="showSection('skill_enhancement_courses_videos')">Skill Enhancement</li>
+            <li onclick="showSection('actionable_resume_improvement_tips')">Resume Improvement Tips</li>
+>>>>>>> Stashed changes
         </ul>
     </div>
 
     <div class="content-container">
         <h1>Results</h1>
 
+<<<<<<< Updated upstream
+=======
+        <div id="extracted_keywords" class="result-section">
+            <h2>Extracted Keywords</h2>
+            <ul>
+                {% for keyword in results.extracted_keywords %}
+                    <li>{{ keyword }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="ai_powered_resume_analysis" class="result-section">
+            <h2>AI-Powered Resume Analysis</h2>
+            <p>{{ results.ai_powered_resume_analysis }}</p>
+        </div>
+>>>>>>> Stashed changes
 
         <div id="job_recommendation" class="result-section">
             <h2>Job Recommendation</h2>
             <p>{{ results.job_recommendation }}</p>
         </div>
 
+<<<<<<< Updated upstream
 <!--        <div id="skill_enhancement_courses_videos" class="result-section">-->
 <!--            <h2>Skill Enhancement Courses & Videos</h2>-->
 <!--            <ul>-->
@@ -229,6 +304,25 @@
 <!--                {% endfor %}-->
 <!--            </ul>-->
 <!--        </div>-->
+=======
+        <div id="skill_enhancement_courses_videos" class="result-section">
+            <h2>Skill Enhancement Courses & Videos</h2>
+            <ul>
+                {% for item in results.skill_enhancement_courses_videos %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="actionable_resume_improvement_tips" class="result-section">
+            <h2>Actionable Resume Improvement Tips</h2>
+            <ul>
+                {% for tip in results.actionable_resume_improvement_tips %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+>>>>>>> Stashed changes
 
         <div id="grammar_writing_quality" class="result-section">
             <h2>Grammar & Writing Quality</h2>
@@ -248,7 +342,11 @@
         </div>
 
         {% for key, value in results.items() %}
+<<<<<<< Updated upstream
             {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'resume_similarity_score', 'extracted_keywords', 'job_recommendation', 'skill_enhancement_courses_videos'] %}
+=======
+            {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'resume_similarity_score', 'extracted_keywords', 'ai_powered_resume_analysis', 'job_recommendation', 'skill_enhancement_courses_videos', 'actionable_resume_improvement_tips'] %}
+>>>>>>> Stashed changes
                 <div id="{{ key }}" class="result-section">
                     <h2>{{ key.replace('_', ' ').title() }}</h2>
 

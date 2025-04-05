@@ -42,39 +42,37 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const resumeUpload = document.getElementById('resumeUpload');
-            const jobDescriptionText = document.getElementById('jobDescriptionText');
-            const analyzeButton = document.getElementById('analyzeButton');
+    const resumeUpload = document.getElementById('resumeUpload');
+    const jobDescriptionText = document.getElementById('jobDescriptionText');
+    const analyzeButton = document.getElementById('analyzeButton');
 
-            function checkInputs() {
-                if (resumeUpload.files && resumeUpload.files[0] && jobDescriptionText.value.trim() !== "") {
-                    analyzeButton.disabled = false;
-                } else {
-                    analyzeButton.disabled = true;
-                }
-            }
+    function checkInputs() {
+        if (resumeUpload.files && resumeUpload.files[0] && jobDescriptionText.value.trim() !== "") {
+            analyzeButton.disabled = false;
+        } else {
+            analyzeButton.disabled = true;
+        }
+    }
 
-            resumeUpload.addEventListener('change', checkInputs);
-            jobDescriptionText.addEventListener('input', checkInputs); // Use 'input' event
+    resumeUpload.addEventListener('change', checkInputs);
+    jobDescriptionText.addEventListener('input', checkInputs);
 
-            analyzeButton.addEventListener('click', function() {
-                const isFresher = confirm("Is this resume for a fresher or a professional?");
-                const jobDescription = jobDescriptionText.value;
+    analyzeButton.addEventListener('click', function() {
+        const jobDescription = jobDescriptionText.value;
 
-                const analysisResults = {
-                    strengths: "Good formatting, relevant experience.",
-                    weaknesses: "Needs more specific skills, improve action verbs.",
-                    suggestions: "Tailor resume to each job, quantify achievements.",
-                    isFresher: isFresher,
-                    jobMatch: "70% match with job description.",
-                    jobDescription: jobDescription, // Add the Job description to the results
-                };
+        const analysisResults = {
+            strengths: "Good formatting, relevant experience.",
+            weaknesses: "Needs more specific skills, improve action verbs.",
+            suggestions: "Tailor resume to each job, quantify achievements.",
+            jobMatch: "70% match with job description.",
+            jobDescription: jobDescription,
+        };
 
-                const queryString = `?strengths=${encodeURIComponent(analysisResults.strengths)}&weaknesses=${encodeURIComponent(analysisResults.weaknesses)}&suggestions=${encodeURIComponent(analysisResults.suggestions)}&isFresher=${isFresher}&jobMatch=${encodeURIComponent(analysisResults.jobMatch)}&jobDescription=${encodeURIComponent(analysisResults.jobDescription)}`;
+        const queryString = `?strengths=${encodeURIComponent(analysisResults.strengths)}&weaknesses=${encodeURIComponent(analysisResults.weaknesses)}&suggestions=${encodeURIComponent(analysisResults.suggestions)}&isFresher=${analysisResults.isFresher}&jobMatch=${encodeURIComponent(analysisResults.jobMatch)}&jobDescription=${jobDescription}`;
 
-                window.location.href = 'analysis_results.html' + queryString;
-            });
-        });
+        window.location.href = 'analysis_results.html' + queryString;
+    });
+});
     </script>
 </body>
 </html>
