@@ -1,20 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Sign-in Modal Logic
     const signInButton = document.getElementById('signInButton');
     const signInModal = document.getElementById('signInModal');
-    const closeBtn = document.querySelector('.close');
-    const analyzeButton = document.getElementById('analyzeButton');
-    const resumeUpload = document.getElementById('resumeUpload');
-    const uploadResumeButton = document.getElementById('uploadResumeButton');
-    const resumeBuilderButton = document.getElementById('resumeBuilderButton');
+    const closeBtn = document.querySelectorAll('.close')[0]; // Select the first close button
 
-    resumeBuilderButton.addEventListener('click', function() {
-        window.location.href = 'resume_builder.html';
-    });
-    
-    uploadResumeButton.addEventListener('click', function() {
-        window.location.href = 'upload_resume.html';
-    });
-    
     signInButton.addEventListener('click', function() {
         signInModal.style.display = 'flex';
     });
@@ -29,6 +18,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Register Modal Logic
+    const registerButton = document.getElementById('registerButton');
+    const registerModal = document.getElementById('registerModal');
+    const registerCloseBtn = document.querySelectorAll('.close')[1]; // Select the second close button
+
+    registerButton.addEventListener('click', function() {
+        registerModal.style.display = 'flex';
+    });
+
+    registerCloseBtn.addEventListener('click', function() {
+        registerModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === registerModal) {
+            registerModal.style.display = 'none';
+        }
+    });
+
+    // Resume Upload and Analysis Logic
+    const analyzeButton = document.getElementById('analyzeButton');
+    const resumeUpload = document.getElementById('resumeUpload');
+    const uploadResumeButton = document.getElementById('uploadResumeButton');
+
     resumeUpload.addEventListener('change', function() {
         if (this.files && this.files[0]) {
             analyzeButton.disabled = false;
@@ -38,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     analyzeButton.addEventListener('click', function() {
-        // replace with actual analysis logic
+        // Replace with actual analysis logic
         const analysisResults = {
             strengths: "Good formatting, relevant experience.",
             weaknesses: "Needs more specific skills, improve action verbs.",
@@ -50,40 +63,40 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'analysis_results.html' + queryString;
     });
 
-    document.getElementById('resumeBuilderButton').addEventListener('click', function() {
+    uploadResumeButton.addEventListener('click', function() {
+        window.location.href = 'upload_resume.html';
+    });
+
+    // Resume Builder Link
+    const resumeBuilderButton = document.getElementById('resumeBuilderButton');
+
+    resumeBuilderButton.addEventListener('click', function() {
         window.location.href = 'resume_builder.html';
     });
-    document.addEventListener('DOMContentLoaded', function() {
-        // ... (Your existing JavaScript code) ...
-    
-        // About link scroll functionality
-        const aboutLink = document.querySelector('nav a[href="#aboutSection"]'); // Select the about link
-        const servicesLink = document.querySelector('nav a[href="#servicesSection"]'); // select the services link
-        const aboutSection = document.getElementById('aboutSection'); // Select the target section
-        const servicesSection = document.getElementById('servicesSection');
-    
-        if (aboutLink && aboutSection) {
-            aboutLink.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-    
-                aboutSection.scrollIntoView({
-                    behavior: 'smooth', // Smooth scrolling animation
-                    block: 'start' // Scroll to the top of the element
-                });
-            });
-        }
-    
-        if (servicesLink && servicesSection) {
-          servicesLink.addEventListener('click', function(event) {
+
+    // About and Services Scroll Functionality
+    const aboutLink = document.querySelector('nav a[href="#aboutSection"]');
+    const servicesLink = document.querySelector('nav a[href="#servicesSection"]');
+    const aboutSection = document.getElementById('aboutSection');
+    const servicesSection = document.getElementById('servicesSection');
+
+    if (aboutLink && aboutSection) {
+        aboutLink.addEventListener('click', function(event) {
             event.preventDefault();
-    
-            servicesSection.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
+            aboutSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
-          })
-        }
-    
-        // ... (Your existing JavaScript code) ...
-    });
+        });
+    }
+
+    if (servicesLink && servicesSection) {
+        servicesLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            servicesSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    }
 });
