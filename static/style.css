@@ -61,6 +61,11 @@ nav a:hover {
     width: 80%;
     max-width: 600px;
     margin: 20px auto;
+    min-height: 13rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
@@ -81,7 +86,7 @@ h1 {
 }
 
 .upload-area {
-    border: 2px dashed black; /* Black dashed border */
+    border: 1px dashed black; /* Black dashed border */
     padding: 40px;
     margin: 20px auto;
     width: 80%;
@@ -378,6 +383,8 @@ input, textarea {
 }
 
 textarea {
+    border: 1px dashed black;
+    width: calc(100% - 5px);
     resize: vertical;
 }
 
